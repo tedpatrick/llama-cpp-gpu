@@ -18,8 +18,8 @@ WORKDIR /opt
 RUN git clone https://github.com/ggml-org/llama.cpp
 
 WORKDIR /opt/llama.cpp
-RUN cmake -B build -DGGML_CUDA=ON && \
-    cmake --build build --config Release -j$(nproc)
+RUN cmake -B build -DGGML_CUDA=ON
+RUN cmake --build build --config Release
 
 # Add llama.cpp binaries to PATH
 ENV PATH="/opt/llama.cpp/build/bin:${PATH}"
