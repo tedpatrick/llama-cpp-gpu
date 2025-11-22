@@ -18,8 +18,10 @@ WORKDIR /opt
 RUN git clone https://github.com/ggerganov/llama.cpp.git
 
 WORKDIR /opt/llama.cpp
-RUN export LD_LIBRARY_PATH=/usr/local/cuda/lib64/stubs:$LD_LIBRARY_PATH && \
-    cmake -B build -DGGML_CUDA=ON && \
+RUN cmake -B build \
+    -DGGML_CUDA=ON \
+    -DCMAKE_CUDA_FLAGS="-L/usr/local/cuda/lib64/stubs" \
+    -DCMAKE_EXE_LINKER_FLAGS="-L/usr/local/cuda/lib64/stubs -lcuda" && \
     cmake --build build --config Release -j$(nproc)
 
 # Add llama.cpp binaries to PATH
